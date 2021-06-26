@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-md-1">
+        <i class="fa fa-caret-up up-vote"></i>
+        <br>
+        <i class="fa fa-caret-down up-vote"></i> 
+    </div>
+    <div class="col-md-11">
+        <div class="card">
+            <div class="card-body"> 
+                <h1><i class="fa fa-question-circle" aria-hidden="true"></i>
+                {{question}}</h1>
+                <br><br>
+                <p>{{question.content }}</p>
+                
+            </div>
+            <div class="card-footer text-muted">
+                <p class="answer-author">
+                    {{question.question_author }}
+                    &nbsp;&nbsp;
+                    Asked at {{question.created_at }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br>
+<h3>{{answers.count}} Answers</h3>
+<br><br>
+    {% for a in answers.all %}   
+        <div class="row">
+            <div class="col-md-1">
+                <i class="fa fa-caret-up up-vote"></i> 
+                <br>
+                <i class="fa fa-caret-down up-vote"></i>
+            </div>
+            <div class="col-md-11">
+                <div class="card">
+                    <div class="card-body"> 
+                        <p>{{a.answer }}</p>
+                        
+                    </div>
+                    <div class="card-footer text-muted">
+                        <p class="answer-author">
+                            {{a.answer_author }}
+                            &nbsp;&nbsp;
+                            Answerd at {{a.created_at }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+    {% endfor %}
+<style>
+    .answer-author{
+        float: right;
+    }
+    .up-vote {
+        font-size: 70px;
+    }
+</style>
+{% endblock %}

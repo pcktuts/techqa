@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Latest Questions </h1>
+
+    {% for q in all_questions_page_obj %}
+        <div class="row">
+            <div class="card col-md-10">
+                <div class="card-body"> 
+                    <span class="badge badge-secondary padded-badge">1 answer {{ q.answers }}</span>
+                    <a href="/{{q.id}}/question">{{ q.title }}</a>  
+                    <span class="right-container">
+                        <span class="q-created">{{ q.created_at }} asked by </span>              
+                        <span class="q-author">  {{ q.question_author }}</span>    
+                    </span>                                    
+                </div>
+            </div>
+        </div>
+        <br>
+       
+    {% endfor %}
+    
+        <!-- Pagination section -->
+    {% if all_questions_page_obj.has_other_pages %}
+    <nav aria-label="Page navigation example">
+
+        <ul class="pagination">
+            {% if all_questions_page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ all_questions_page_obj.previous_page_number }}">&laquo;</a></li>
+            {% endif %}
+            {% for i in all_questions_page_obj.paginator.page_range %}
+            {% if all_questions_page_obj.number == i %}
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">{{ i }}</a>
+                </li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+            {% endfor %}
+            {% if all_questions_page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ all_questions_page_obj.next_page_number }}">&raquo;</a></li>
+           
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+
+    <style>
+        .right-container{
+            float: right;
+            font-style: italic;
+        }
+        .q-author{
+           
+            font-weight: bold;
+            font-style: italic;
+        }
+        .padded-badge {
+            padding:10px;
+            padding: 10px;
+            border: 1px solid grey;
+            border-radius: 3px;
+            color: grey;
+            background-color: white;
+        }
+        
+    </style>
+{% endblock %}
