@@ -1,5 +1,48 @@
-<form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Sign up">
-</form>
+{% extends "login_signup_layout.html" %}
+
+{% block content %}
+    <main class="form-signin">
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Username</label>
+                {% if form.username.errors %}
+                    <input type="text" name="username" class="form-control is-invalid" id="" aria-describedby="">
+                    <div id="validationServer03Feedback" class="invalid-feedback">
+                        {{ form.username.errors }}
+                    </div>
+                {% else %}
+                <input type="text" name="username" class="form-control" id="" aria-describedby="">
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Password</label>
+                {% if form.password1.errors %}
+                    <input type="password" name="password1" class="form-control is-invalid" id="" aria-describedby="">
+                    <div id="validationServer03Feedback" class="invalid-feedback">
+                        {{ form.password1.errors }}
+                    </div>
+                {% else %}
+                    <input type="password" name="password1" class="form-control" id="" aria-describedby="">
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Password Confirmation</label>
+                {% if form.password2.errors %}
+                    <input type="password"  name="password2" class="form-control is-invalid" id="" aria-describedby="">
+                    <div id="validationServer03Feedback" class="invalid-feedback">
+                        {{ form.password2.errors }}
+                    </div>
+                {% else %}
+                    <input type="password" name="password2" class="form-control" id="" aria-describedby="">
+                {% endif %}
+            </div>            
+            <button type="submit" class="btn btn-primary mb-2">Sign up</button>
+        </form>
+    </main>
+ </body>
+ </html>
+ {% endblock %}
