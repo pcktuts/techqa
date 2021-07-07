@@ -56,6 +56,16 @@
         </div>
         <br><br>
     {% endfor %}
+    {% if user %}   
+    <form action="/add-answer/{{question.id}}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Answer</label>
+            <textarea class="form-control" name="answer" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Add Answer</button>
+    </form>
+    {% endif %}
 <style>
     .answer-author{
         float: right;
