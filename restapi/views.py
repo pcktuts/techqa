@@ -7,7 +7,7 @@ from techqa.models import Question, Answer
 # Create your views here.
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by('-id')
     serializer_class = UserSerializer
 
 class QuestionViewSet(viewsets.ModelViewSet):

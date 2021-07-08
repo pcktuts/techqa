@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'techqa.middleware.SimpleMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'techanswers.urls'
@@ -134,5 +135,7 @@ LOGIN_REDIRECT_URL = 'home'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 3
+    'PAGE_SIZE': 10
 }
+# https://stackoverflow.com/questions/35760943/how-can-i-enable-cors-on-django-rest-framework
+CORS_ORIGIN_ALLOW_ALL = True

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechQA Vuejs</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container">
+        <div id="app">
+            <h1>{{ message }}</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Create User</h3>
+                    <div v-if="form_success" class="alert alert-success" role="alert">
+                        User created successfully!
+                    </div>
+                    <form v-on:submit="createUser">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Username</label>
+                            <input type="text" v-model="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                        </div>
+                        <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" v-model="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                        <small id="emailHelp"  class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" v-model="password" class="form-control" id="exampleInputPassword1" required>
+                        </div>
+                        <div class="form-group form-check">
+                        <input type="checkbox" v-model="is_staff" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Is Staff</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <!-- Users list -->
+            <div class="row">                   
+                <div class="col-md-12">
+                    <h3>Users</h3>
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Is staff</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(u, i) in users">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ u.username }}</td>
+                            <td>{{ u.email }}</td>
+                            <td>{{ u.is_staff }}</td>
+                        </tr>                     
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+
+    <!-- production version, optimized for size and speed -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+    <script>
+        const API_BASE_URL = 'http://127.0.0.1:8000/api'
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue, Learn API',
+                users: null,
+                username: "",
+                email: "",
+                password: "",
+                is_staff: false,
+                errors: [],
+                form_success: false
+            },
+            mounted() {
+                fetch(API_BASE_URL + '/users/?format=json')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        this.users = data.results || []
+                    })
+            },
+            methods: {
+                createUser(e){
+                    e.preventDefault() // it prevent from page reload
+                    const data = {username: this.username, email: this.email, password: this.password, is_staff: this.is_staff}
+                    fetch(API_BASE_URL + '/users/?format=json',
+                    {
+                        method: "POST",
+                        mode: "cors",
+                        cache: "no-cache", 
+                        credentials: "same-origin",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    }
+                    )
+                        .then(response => {
+                            if(response.ok){
+                                this.form_success = true
+                                event.target.reset()
+                            } else {
+                                this.errors = response.json()
+                            }
+                            
+                        })
+                    }
+            }
+        })
+    </script>
+
+</body>
+
+</html>
