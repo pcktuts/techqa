@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'techqa',
     'polls.apps.PollsConfig',
+    'rest_framework',
+    'restapi.apps.RestapiConfig',
 ]
 
 MIDDLEWARE = [
